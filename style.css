@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 250px);
+}
+
+.square {
+    height: 250px;
+    width: 250px;
+    background: black;
+}
+
+div[data-index = "5"] {
+    border: 1px solid white;
+}
+
+div[data-index = "2"] {
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+}
+
+div[data-index = "4"] {
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+}
+
+div[data-index = "6"] {
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+}
+
+div[data-index = "8"] {
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+}
