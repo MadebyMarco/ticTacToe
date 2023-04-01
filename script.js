@@ -25,7 +25,7 @@ const gameBoard = (() => {
     }
 
     const isPlayer1Turn = () => {
-        if(positions[positions.length - 1] == undefined || positions[positions.length - 1] == "X") {
+        if(positions[0] == undefined || positions[positions.length - 1] == "O") {
             return true
         } else return false;
     }
@@ -42,12 +42,17 @@ const gameBoard = (() => {
     }
 
     const markSquare = (e) => {
-        if(isSquareEmpty(e) && isPlayer1Turn()) { //runs only if square is empty
-            e.target.textContent = player1.pieces.pop();
-        }
-        if(isSquareEmpty(e) && !isPlayer1Turn()) { 
-            e.target.textContent = player2.pieces.pop();
-        }
+        if(isSquareEmpty(e)) { //runs only if square is empty
+            if(isPlayer1Turn()) {
+                const piece = player1.pieces.pop()
+                e.target.textContent = piece ;
+                positions.push(piece);
+            } else {
+                const piece = player2.pieces.pop()
+                e.target.textContent = piece ;
+                positions.push(piece);
+            }
+        } 
     }
 
     const remove = () => {
@@ -68,7 +73,8 @@ const gameBoard = (() => {
         clear,
         render,
         remove,
-        
+        isPlayer1Turn,
+        positions
     } 
 })();
 
