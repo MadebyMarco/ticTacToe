@@ -13,7 +13,8 @@ const gameBoard = (() => {
             square.addEventListener("click", (e) => {
                 addSquareIndexToBoardIndex(e)
                 addSquareIndexToPlayer(e)
-                markSquare(e);
+                movePlayerPieceToPiecesOnBoard(e);
+                render();
             })
             board.appendChild(square);
         }
@@ -34,6 +35,7 @@ const gameBoard = (() => {
 
     const addSquareIndexToBoardIndex = (e) => {
         piecesOnBoardIndexes.push(e.target.dataset.index);
+        console.log(piecesOnBoardIndexes);
     }
 
     const addSquareIndexToPlayer = (e) => {
@@ -47,16 +49,16 @@ const gameBoard = (() => {
         } else return false;
     }
 
-    const markSquare = (e) => {
+    const movePlayerPieceToPiecesOnBoard = (e) => {
         if(isSquareEmpty(e)) { //runs only if square is empty
             if(isPlayer1Turn()) {
-                const piece = player1.pieces.pop()
-                e.target.textContent = piece ;
-                piecesOnBoard.push(piece);
+                const playerPiece = player1.pieces.pop()
+                //e.target.textContent = piece ;
+                piecesOnBoard.push(playerPiece);
             } else {
-                const piece = player2.pieces.pop()
-                e.target.textContent = piece ;
-                piecesOnBoard.push(piece);
+                const playerPiece = player2.pieces.pop()
+                //e.target.textContent = piece ;
+                piecesOnBoard.push(playerPiece);
             }
         } 
     }
@@ -68,9 +70,14 @@ const gameBoard = (() => {
 
     const render = () => {
         for(let i = 0; i < piecesOnBoard.length; i++) {
-            const piecesOnBoard = document.querySelector(`div[data-index="${i + 1}"]`);
+            //match up board pieces with their indexes and then print the piece at the index
+            //using "i" we can get the piece on board index and then push the shape accordingly
+            const index = parseInt(piecesOnBoardIndexes[i]);
+            console.log(index);
+            const square = document.querySelector(`div[data-index="${index}"]`);
             const shape = piecesOnBoard[i];
-            piecesOnBoard.textContent = `${shape}`;
+            console.log(shape);
+            square.textContent = `${shape}`;
         }
     }
 
@@ -79,7 +86,8 @@ const gameBoard = (() => {
         clear,
         render,
         remove,
-        piecesOnBoard
+        piecesOnBoard,
+        piecesOnBoardIndexes
     } 
 })();
 
