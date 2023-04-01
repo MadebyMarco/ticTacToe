@@ -4,15 +4,29 @@
     box-sizing: border-box;
 }
 
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .board {
     display: grid;
     grid-template-columns: repeat(3, 250px);
+    grid-template-rows: repeat(3, 250px);
 }
 
 .square {
     height: 250px;
     width: 250px;
     background: black;
+    color: aliceblue;
+    font-size: 200px;
+    text-align: center;
 }
 
 div[data-index = "5"] {
