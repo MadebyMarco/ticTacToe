@@ -25,6 +25,7 @@ const gameBoard = (() => {
         const squares = document.querySelectorAll(".square");
         squares.forEach(square => square.textContent = "");
         gameBoard.piecesOnBoard = ["X","O","X","O","X","O","X","O","X"];
+        player1.reset();
     }
 
     const isPlayer1Turn = () => {
@@ -33,20 +34,22 @@ const gameBoard = (() => {
         } else return false;
     }
 
-    const addSquareIndexToBoardIndex = (e) => {
-        piecesOnBoardIndexes.push(e.target.dataset.index);
-        console.log(piecesOnBoardIndexes);
-    }
-
-    const addSquareIndexToPlayer = (e) => {
-        if(isPlayer1Turn()) {
-            player1.index.push(e.target.dataset.index);
-        } else player2.index.push(e.target.dataset.index);
-    }
     const isSquareEmpty = (e) => {
         if (e.target.textContent == "") {
             return true;
         } else return false;
+    }
+
+    const addSquareIndexToBoardIndex = (e) => {
+        if(isSquareEmpty(e)) piecesOnBoardIndexes.push(e.target.dataset.index);
+    }
+
+    const addSquareIndexToPlayer = (e) => {
+        if(isSquareEmpty(e)) {
+            if(isPlayer1Turn()) {
+                player1.index.push(e.target.dataset.index);
+            } else player2.index.push(e.target.dataset.index);
+        }
     }
 
     const movePlayerPieceToPiecesOnBoard = (e) => {
@@ -73,10 +76,8 @@ const gameBoard = (() => {
             //match up board pieces with their indexes and then print the piece at the index
             //using "i" we can get the piece on board index and then push the shape accordingly
             const index = parseInt(piecesOnBoardIndexes[i]);
-            console.log(index);
             const square = document.querySelector(`div[data-index="${index}"]`);
             const shape = piecesOnBoard[i];
-            console.log(shape);
             square.textContent = `${shape}`;
         }
     }
@@ -96,13 +97,22 @@ const gameBoard = (() => {
 //It can have 9 possible piecesOnBoard, 1-9
 const player = (playerName, shape) => {
     let pieces = [];
-    if(shape == "X") {
-        pieces = ["X","X","X","X","X"];
-    } else pieces = ["O","O","O","O"];
+    let index = [];
 
+    const setPlayerPieces = () => {
+        if(shape == "X") {
+            pieces = ["X","X","X","X","X"];
+        } else pieces = ["O","O","O","O"];
+    }
 
-    const index = [];
-    return {playerName, shape, pieces, index}
+    setPlayerPieces();
+
+    const reset = () => {
+        setPlayerPieces();
+        index = [];
+    }
+
+    return {playerName, shape, pieces, index, reset}
 }
 
 const player1 = player("player1", "X");
