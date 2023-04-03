@@ -67,7 +67,7 @@ const gameBoard = (() => {
         document.querySelector(".board").remove();
         gameBoard.piecesOnBoard = ["X","O","X","O","X","O","X","O","X"];
     }
-
+    
     const render = () => {
         for(let i = 0; i < piecesOnBoard.length; i++) {
             //match up board pieces with their indexes and then print the piece at the index
@@ -78,68 +78,69 @@ const gameBoard = (() => {
             square.textContent = `${shape}`;
         }
     }
-
-    const isWinner = (playerIndexes) => {
+    
+    const isWinner = (player) => {
+        //Once a player reaches a certain pattern of piecesOnBoard, such as 1,2,3 = the top row, then the winnder will be announced
         // top row
-        if(playerIndexes.includes("1")) {
-            if(playerIndexes.includes("2")) {
-                if(playerIndexes.includes("3")) {
+        if(player.index.includes("1")) {
+            if(player.index.includes("2")) {
+                if(player.index.includes("3")) {
                     return true
                 }   
             }
         } 
         // middle row
-        if(playerIndexes.includes("4")) {
-            if(playerIndexes.includes("5")) {
-                if(playerIndexes.includes("6")) {
+        if(player.index.includes("4")) {
+            if(player.index.includes("5")) {
+                if(player.index.includes("6")) {
                     return true
                 }   
             } 
         } 
         //bottom row
-        if(playerIndexes.includes("7")) {
-            if(playerIndexes.includes("8")) {
-                if(playerIndexes.includes("9")) {
+        if(player.index.includes("7")) {
+            if(player.index.includes("8")) {
+                if(player.index.includes("9")) {
                     return true
                 }   
             } 
         } 
         //left column
-        if(playerIndexes.includes("1")) {
-            if(playerIndexes.includes("4")) {
-                if(playerIndexes.includes("7")) {
+        if(player.index.includes("1")) {
+            if(player.index.includes("4")) {
+                if(player.index.includes("7")) {
                     return true
                 }   
             } 
         } 
         // middle column
-        if(playerIndexes.includes("2")) {
-            if(playerIndexes.includes("5")) {
-                if(playerIndexes.includes("8")) {
+        if(player.index.includes("2")) {
+            if(player.index.includes("5")) {
+                if(player.index.includes("8")) {
                     return true
                 }   
             } 
         } 
         //right column
-        if(playerIndexes.includes("3")) {
-            if(playerIndexes.includes("6")) {
-                if(playerIndexes.includes("9")) {
+        if(player.index.includes("3")) {
+            if(player.index.includes("6")) {
+                if(player.index.includes("9")) {
                     return true
                 }   
             } 
         } 
         // top left to bottom right diagonal
-        if(playerIndexes.includes("1")) {
-            if(playerIndexes.includes("5")) {
-                if(playerIndexes.includes("9")) {
+        if(player.index.includes("1")) {
+            if(player.index.includes("5")) {
+                if(player.index.includes("9")) {
                     return true
                 }   
             } 
         } 
         // top right to bottom left diagonal 
-        if(playerIndexes.includes("3")) {
-            if(playerIndexes.includes("5")) {
-                if(playerIndexes.includes("7")) {
+        if(player.index.includes("3")) {
+            if(player.index.includes("5")) {
+                if(player.index.includes("7")) {
                     return true
                 }   
             } 
@@ -148,9 +149,9 @@ const gameBoard = (() => {
 
 
     const announceWinner = () => {
-        if (isWinner(player1.index)) {
+        if (isWinner(player1)) {
             console.log(`${player1.playerName} wins!`);
-        } else if (isWinner(player2.index)) {
+        } else if (isWinner(player2)) {
             console.log(`${player2.playerName} wins!`);
         } else console.log("no winner yet");
     }
@@ -181,18 +182,24 @@ const player = (playerName, shape) => {
     setPlayerPieces(shape);
 
     const reset = () => {
+        if(shape == "X") {
+            player1.index = [];
+            player1.pieces = ["X","X","X","X","X"];
+        } else if (player2){
+            player2.index = [];
+            player2.pieces = ["O","O","O","O"]; 
+        }
     }
 
 
 
-    return {playerName, shape, pieces, index}
+    return {playerName, shape, pieces, index, reset}
 }
 
 const player1 = player("John", "X");
 const player2 = player("Melissa", "O");
 
 
-//Once a player reaches a certain pattern of piecesOnBoard, such as 1,2,3 = the top row, then the winnder will be announced;
 
 
 gameBoard.create();
