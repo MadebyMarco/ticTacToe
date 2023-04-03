@@ -10,11 +10,12 @@ const gameBoard = (() => {
             const square = document.createElement("div");
             square.classList.add("square");
             square.dataset.index = `${i}`;
-            square.addEventListener("click", (e) => {
+            square.addEventListener("click", (e) => { //I realize after adding isSquareEmpty to functions individually, I could add it here, but its too late
                 addSquareIndexToBoardIndex(e)
                 addSquareIndexToPlayer(e)
                 movePlayerPieceToPiecesOnBoard(e);
                 render();
+                announceWinner();
             })
             board.appendChild(square);
         }
@@ -24,8 +25,6 @@ const gameBoard = (() => {
     const clear = () => {
         const squares = document.querySelectorAll(".square");
         squares.forEach(square => square.textContent = "");
-        gameBoard.piecesOnBoard = ["X","O","X","O","X","O","X","O","X"];
-        player1.reset();
     }
 
     const isPlayer1Turn = () => {
@@ -53,14 +52,12 @@ const gameBoard = (() => {
     }
 
     const movePlayerPieceToPiecesOnBoard = (e) => {
-        if(isSquareEmpty(e)) { //runs only if square is empty
+        if(isSquareEmpty(e)) { 
             if(isPlayer1Turn()) {
                 const playerPiece = player1.pieces.pop()
-                //e.target.textContent = piece ;
                 piecesOnBoard.push(playerPiece);
             } else {
                 const playerPiece = player2.pieces.pop()
-                //e.target.textContent = piece ;
                 piecesOnBoard.push(playerPiece);
             }
         } 
@@ -82,13 +79,90 @@ const gameBoard = (() => {
         }
     }
 
+    const isWinner = (playerIndexes) => {
+        // top row
+        if(playerIndexes.includes("1")) {
+            if(playerIndexes.includes("2")) {
+                if(playerIndexes.includes("3")) {
+                    return true
+                }   
+            }
+        } 
+        // middle row
+        if(playerIndexes.includes("4")) {
+            if(playerIndexes.includes("5")) {
+                if(playerIndexes.includes("6")) {
+                    return true
+                }   
+            } 
+        } 
+        //bottom row
+        if(playerIndexes.includes("7")) {
+            if(playerIndexes.includes("8")) {
+                if(playerIndexes.includes("9")) {
+                    return true
+                }   
+            } 
+        } 
+        //left column
+        if(playerIndexes.includes("1")) {
+            if(playerIndexes.includes("4")) {
+                if(playerIndexes.includes("7")) {
+                    return true
+                }   
+            } 
+        } 
+        // middle column
+        if(playerIndexes.includes("2")) {
+            if(playerIndexes.includes("5")) {
+                if(playerIndexes.includes("8")) {
+                    return true
+                }   
+            } 
+        } 
+        //right column
+        if(playerIndexes.includes("3")) {
+            if(playerIndexes.includes("6")) {
+                if(playerIndexes.includes("9")) {
+                    return true
+                }   
+            } 
+        } 
+        // top left to bottom right diagonal
+        if(playerIndexes.includes("1")) {
+            if(playerIndexes.includes("5")) {
+                if(playerIndexes.includes("9")) {
+                    return true
+                }   
+            } 
+        } 
+        // top right to bottom left diagonal 
+        if(playerIndexes.includes("3")) {
+            if(playerIndexes.includes("5")) {
+                if(playerIndexes.includes("7")) {
+                    return true
+                }   
+            } 
+        } 
+    }
+
+
+    const announceWinner = () => {
+        if (isWinner(player1.index)) {
+            console.log(`${player1.playerName} wins!`);
+        } else if (isWinner(player2.index)) {
+            console.log(`${player2.playerName} wins!`);
+        } else console.log("no winner yet");
+    }
+
     return {
         create,
         clear,
         render,
         remove,
         piecesOnBoard,
-        piecesOnBoardIndexes
+        piecesOnBoardIndexes,
+        announceWinner
     } 
 })();
 
@@ -98,33 +172,27 @@ const gameBoard = (() => {
 const player = (playerName, shape) => {
     let pieces = [];
     let index = [];
-
-    const setPlayerPieces = () => {
-        if(shape == "X") {
+    const setPlayerPieces = (shape) => {
+        if(shape === "X") {
             pieces = ["X","X","X","X","X"];
         } else pieces = ["O","O","O","O"];
     }
 
-    setPlayerPieces();
+    setPlayerPieces(shape);
 
     const reset = () => {
-        setPlayerPieces();
-        index = [];
     }
 
-    return {playerName, shape, pieces, index, reset}
+
+
+    return {playerName, shape, pieces, index}
 }
 
-const player1 = player("player1", "X");
-const player2 = player("player2", "O");
+const player1 = player("John", "X");
+const player2 = player("Melissa", "O");
 
 
 //Once a player reaches a certain pattern of piecesOnBoard, such as 1,2,3 = the top row, then the winnder will be announced;
 
-
-const gameFlow = (() => {
-    //Base turns off of piecesOnBoard 
-    const turn = player1
-})();
 
 gameBoard.create();
