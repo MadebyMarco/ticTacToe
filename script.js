@@ -11,14 +11,14 @@ const gameBoard = (() => {
             square.classList.add("square");
             square.dataset.index = `${i}`;
             square.addEventListener("click", (e) => { //I realize after adding isSquareEmpty to functions individually, I could add it here, but its too late
-                addSquareIndexToBoardIndex(e)
-                addSquareIndexToPlayer(e)
-                movePlayerPieceToPiecesOnBoard(e);
-                render();
-                if(getWinner().winner || isTie().true) {
+
+                if(!(getWinner().winner || isTie().true)) {
+                    addSquareIndexToBoardIndex(e)
+                    addSquareIndexToPlayer(e)
+                    movePlayerPieceToPiecesOnBoard(e);
+                    render();
                     createEndGameBanner();
-                    document.querySelectorAll(".square").forEach(square => square.removeEventListener("click", render));
-                } 
+                }
             })
             board.appendChild(square);
         }
@@ -68,7 +68,8 @@ const gameBoard = (() => {
 
     const remove = () => {
         document.querySelector(".board").remove();
-        gameBoard.piecesOnBoard = ["X","O","X","O","X","O","X","O","X"];
+        gameBoard.piecesOnBoard = [];
+        gameBoard.piecesOnBoardIndexes = [];
     }
     
     const render = () => {
@@ -167,15 +168,18 @@ const gameBoard = (() => {
     }
 
     const createEndGameBanner = () => {
-        const banner = document.createElement("div");
-        banner.classList.add("banner");
-
-        if(getWinner().name !== "Its a Tie") {
-            banner.textContent = `${getWinner().name} wins!`;
-        } else banner.textContent = `${isTie.announce}`;
-
-        document.querySelector("body").appendChild(banner);
-        
+        if(getWinner().winner || isTie().true) {
+            const banner = document.createElement("div");
+            banner.classList.add("banner");
+            
+            if(getWinner().name !== "Its a Tie") {
+                banner.textContent = `${getWinner().name} wins!`;
+            } else banner.textContent = `${isTie.announce}`;
+            
+            document.querySelector("body").appendChild(banner);
+            return "created";
+        } 
+            
     }
 
     return {
@@ -224,3 +228,5 @@ const player2 = player("Melissa", "O");
 
 
 gameBoard.create();
+
+//create a function that clears players and gameboard in order to act as a restart button.
