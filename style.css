@@ -23,11 +23,16 @@ body {
 }
 
 .nav button {
+    font-weight: 700;
     padding: 8px 16px;
-    border-color: transparent;
+    border-color: black;
     border-radius: 5px;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
     background-color: white;
+}
+
+.nav button:active {
+    box-shadow:inset 4px 4px 5px rgba(0, 0, 0, 0.1);
 }
 
 .board {
