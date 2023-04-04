@@ -15,7 +15,10 @@ const gameBoard = (() => {
                 addSquareIndexToPlayer(e)
                 movePlayerPieceToPiecesOnBoard(e);
                 render();
-                announceWinner();
+                if(getWinner().winner || isTie().true) {
+                    createEndGameBanner();
+                    document.querySelectorAll(".square").forEach(square => square.removeEventListener("click", render));
+                } 
             })
             board.appendChild(square);
         }
@@ -145,15 +148,34 @@ const gameBoard = (() => {
                 }   
             } 
         } 
+
     }
 
-
-    const announceWinner = () => {
+    const isTie = () => {
+        if(player1.pieces.length == 0) {
+            return {announce: "Its a Tie",tie:true}
+        } else return {tie: false}
+    }
+    const getWinner = () => {
         if (isWinner(player1)) {
             console.log(`${player1.playerName} wins!`);
+            return {name: player1.playerName, winner: true};
         } else if (isWinner(player2)) {
             console.log(`${player2.playerName} wins!`);
-        } else console.log("no winner yet");
+            return {name: player2.playerName, winner: true};
+        } else return {winner: false}
+    }
+
+    const createEndGameBanner = () => {
+        const banner = document.createElement("div");
+        banner.classList.add("banner");
+
+        if(getWinner().name !== "Its a Tie") {
+            banner.textContent = `${getWinner().name} wins!`;
+        } else banner.textContent = `${isTie.announce}`;
+
+        document.querySelector("body").appendChild(banner);
+        
     }
 
     return {
@@ -163,7 +185,6 @@ const gameBoard = (() => {
         remove,
         piecesOnBoard,
         piecesOnBoardIndexes,
-        announceWinner
     } 
 })();
 
