@@ -12,6 +12,22 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-flow: column;
+    row-gap: 25px;
+}
+
+.nav {
+    display: flex;
+    gap: 25px;
+    align-content: space-between;
+}
+
+.nav button {
+    padding: 8px 16px;
+    border-color: transparent;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+    background-color: white;
 }
 
 .board {
