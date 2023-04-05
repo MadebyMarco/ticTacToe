@@ -67,12 +67,15 @@ const gameBoard = (() => {
     }
 
     const restart = () => {
-        document.querySelector(".board").remove();
-        create();
-        gameBoard.piecesOnBoard = [];
-        gameBoard.piecesOnBoardIndexes = [];
+        piecesOnBoard = [];
+        piecesOnBoardIndexes = [];
         player1.reset();
         player2.reset();
+        document.querySelector(".board").remove();
+        const banner = document.querySelector(".banner")
+        if(banner != null) banner.remove();
+        create();
+        console.log(piecesOnBoard)
     }
     
     const render = () => {
@@ -81,8 +84,9 @@ const gameBoard = (() => {
             //using "i" we can get the piece on board index and then push the shape accordingly
             const index = parseInt(piecesOnBoardIndexes[i]);
             const square = document.querySelector(`div[data-index="${index}"]`);
-            const shape = piecesOnBoard[i];
-            square.textContent = `${shape}`;
+            const playerPiece = piecesOnBoard[i];
+            square.textContent = `${playerPiece}`;
+            console.log(piecesOnBoard)
         }
     }
     
@@ -156,7 +160,7 @@ const gameBoard = (() => {
     }
 
     const isTie = () => {
-        if(player1.pieces.length == 0) {
+        if(player1.pieces.length == 0 && getWinner().winner == false) {
             return {announce: "Its a Tie",tie:true}
         } else return {tie: false}
     }
@@ -188,8 +192,6 @@ const gameBoard = (() => {
     return {
         create,
         restart,
-        piecesOnBoard,
-        piecesOnBoardIndexes,
         isTie,
         getWinner
     } 
