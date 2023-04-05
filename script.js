@@ -12,7 +12,7 @@ const gameBoard = (() => {
             square.dataset.index = `${i}`;
             square.addEventListener("click", (e) => { //I realize after adding isSquareEmpty to functions individually, I could add it here, but its too late
 
-                if(!(getWinner().winner || isTie().tie)) {
+                if(!(getWinner().winner || isTie().tie)) { //will only run if there is no winner or tie
                     addSquareIndexToBoardIndex(e)
                     addSquareIndexToPlayer(e)
                     movePlayerPieceToPiecesOnBoard(e);
@@ -23,11 +23,6 @@ const gameBoard = (() => {
             board.appendChild(square);
         }
         body.appendChild(board);
-    }
-
-    const clear = () => {
-        const squares = document.querySelectorAll(".square");
-        squares.forEach(square => square.textContent = "");
     }
 
     const isPlayer1Turn = () => {
@@ -191,9 +186,7 @@ const gameBoard = (() => {
 
     return {
         create,
-        restart,
-        isTie,
-        getWinner
+        restart
     } 
 })();
 
@@ -221,18 +214,39 @@ const player = (playerName, shape) => {
         }
     }
 
+    const setPlayerName = () => {
+        const player1Input = document.querySelector("#player1");
+        const player2Input = document.querySelector("#player2");
+        if(player1Input.value != "") {
+            player1.playerName = player1Input.value;
+        }
+        if (player2Input.value != "") {
+            player2.playerName = player2Input.value;
+        }
+    }
 
 
-    return {playerName, shape, pieces, index, reset}
+    return {playerName, pieces, index, reset, setPlayerName}
 }
 
 const player1 = player("John", "X");
 const player2 = player("Melissa", "O");
+const startButton = document.querySelector("button.startGame");
+const restartButton = document.querySelector("button.restartGame");
+
+startButton.addEventListener("click", () => {
+    if((document.querySelector(".board")) == null) {
+        gameBoard.create();
+        player1.setPlayerName();
+        player2.setPlayerName();
+    }
+})
+
+restartButton.addEventListener("click", gameBoard.restart);
 
 
 
 
 
-gameBoard.create();
 
 //create a function that clears players and gameboard in order to act as a restart button.
