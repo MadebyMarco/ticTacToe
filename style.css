@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Poppins', Helvetica, sans-serif;
 }
 
 html, body {
@@ -16,14 +17,49 @@ body {
     row-gap: 25px;
 }
 
+.heading {
+    font-size: 60px;
+    font-weight: 800;
+    text-shadow: 6px 6px 4px rgba(141, 141, 141, 0.3);
+}
+
 .nav {
     display: flex;
     gap: 25px;
     align-content: space-between;
     align-items: center;
+    width: 750px;
+}
+
+.nav div {
+    display: flex;
+    flex-flow: column;
+    gap: 5px;
+    width: 200px;
+}
+.nav label {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.nav input {
+    outline: transparent;
+    border: transparent;
+    border-bottom: solid 2px black;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.nav input:focus{
+    border-bottom-color: gray;
+}
+
+.nav input:hover{
+    border-bottom-color: gray;
 }
 
 .nav button {
+    cursor: pointer;
     font-weight: 700;
     padding: 8px 16px;
     border-color: black;
@@ -32,6 +68,7 @@ body {
     border-radius: 5px;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
     background-color: white;
+    flex: 1 1 auto;
 }
 
 .nav button:active {
@@ -49,11 +86,13 @@ body {
 }
 
 .square {
+    cursor: pointer;
     height: 250px;
     width: 250px;
     background: black;
     color: aliceblue;
-    font-size: 200px;
+    font-size: 160px;
+    font-weight: 800;
     text-align: center;
 }
 
@@ -79,4 +118,15 @@ div[data-index = "6"] {
 div[data-index = "8"] {
     border-left: 1px solid white;
     border-right: 1px solid white;
+}
+
+.banner {
+    position: absolute;
+    font-size: 50px;
+    font-weight: 600;
+    color: rgb(0, 0, 0);
+    top: 1fr;
+    left: 1fr;
+    background-color: white;
+    padding: 0 20px;
 }
