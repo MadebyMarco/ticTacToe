@@ -12,13 +12,13 @@ const gameBoard = (() => {
             square.dataset.index = `${i}`;
             square.addEventListener("click", (e) => { //I realize after adding isSquareEmpty to functions individually, I could add it here, but its too late
 
-                if(!(getWinner().winner || isTie().true)) {
+                if(!(getWinner().winner || isTie().tie)) {
                     addSquareIndexToBoardIndex(e)
                     addSquareIndexToPlayer(e)
                     movePlayerPieceToPiecesOnBoard(e);
                     render();
                     createEndGameBanner();
-                }
+                } else console.log("Restart Game");
             })
             board.appendChild(square);
         }
@@ -66,10 +66,13 @@ const gameBoard = (() => {
         } 
     }
 
-    const remove = () => {
+    const restart = () => {
         document.querySelector(".board").remove();
+        create();
         gameBoard.piecesOnBoard = [];
         gameBoard.piecesOnBoardIndexes = [];
+        player1.reset();
+        player2.reset();
     }
     
     const render = () => {
@@ -168,27 +171,27 @@ const gameBoard = (() => {
     }
 
     const createEndGameBanner = () => {
-        if(getWinner().winner || isTie().true) {
+        if(getWinner().winner || isTie().tie) {
             const banner = document.createElement("div");
             banner.classList.add("banner");
             
-            if(getWinner().name !== "Its a Tie") {
+            if(isTie().tie !== true) {
                 banner.textContent = `${getWinner().name} wins!`;
-            } else banner.textContent = `${isTie.announce}`;
+            } else banner.textContent = `${isTie().announce}`;
             
             document.querySelector("body").appendChild(banner);
-            return "created";
-        } 
+        }
+
             
     }
 
     return {
         create,
-        clear,
-        render,
-        remove,
+        restart,
         piecesOnBoard,
         piecesOnBoardIndexes,
+        isTie,
+        getWinner
     } 
 })();
 
@@ -223,6 +226,7 @@ const player = (playerName, shape) => {
 
 const player1 = player("John", "X");
 const player2 = player("Melissa", "O");
+
 
 
 

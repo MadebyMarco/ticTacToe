@@ -20,19 +20,26 @@ body {
     display: flex;
     gap: 25px;
     align-content: space-between;
+    align-items: center;
 }
 
 .nav button {
     font-weight: 700;
     padding: 8px 16px;
     border-color: black;
+    border-style: solid;
+    border-width: 2px;
     border-radius: 5px;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
     background-color: white;
 }
 
 .nav button:active {
-    box-shadow:inset 4px 4px 5px rgba(0, 0, 0, 0.1);
+    box-shadow:inset 4px 4px 5px rgba(0, 0, 0, 0.3);
+}
+
+.nav button:hover {
+    border-color: gray;
 }
 
 .board {
